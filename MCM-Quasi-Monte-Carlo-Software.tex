@@ -121,27 +121,33 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 
 \frame{\titlepage}
 
+\begin{frame}{Quasi-Monte Carlo Cubature}
+	
+	\vspace{-6ex}
+	
+	\[
+	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\vt = \vPsi(\vx)}  } \only<1>{\mu :=} 	\underbrace{\Ex[f(\vX)]}_{\text{expectation}} = \underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
+	\]
+	
+	\vspace{-3ex}
+	
+	\begin{description}[<+->]
+		\setlength{\itemsep}{0.5cm}
+		
+		\item[Low Discrepancy Generator] producing $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$ 
+		
+		\item[True Measure] that defines the original integral, e.g., Lebesgue or Gaussian, and performs the variable transformation
+		
+		\item[Integrand] $g$, which defines the original integral, plus the transformed version, $f$, to fit the LD generator
+		
+		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
+	\end{description}
+\end{frame}
+
+\end{document}
 
 \section{Background}
 
-\begin{frame}{You have heard about QMC.  How do you try it?}
-	
-	\vspace{-5ex}
-\begin{itemize}
-\setlength{\itemsep}{0cm}
-    \item<1-> \emph{QMC will give you 100 times the accuracy in the same amount of time as simple MC} \\
-     \uncover<2->{\alert{Often}}
-    \item<1-> \emph{Just replace your IID random points with low discrepancy (LD) points}\\
-    \uncover<2->{\alert{Sometimes}}
-    
-    \vspace{4ex}
-    
-    \item<3-> \emph{Where can I get accurate, efficient, easy to use QMC software to try for my problem?}\\
-     \item<3-> \emph{How can I make my great QMC software available for others?}\\
-    \uncover<4->{\alert{Let's try to help}}
-    
-\end{itemize}
-\end{frame}
 
 \begin{frame}{Quasi-Monte Carlo (QMC) uses low discrepancy (LD) sequences}
 \vspace{-3ex}
@@ -224,28 +230,6 @@ $F_{\{\vX_i\}_{i=1}^n}(\vx) \approx F(\vx)$
     
 \end{frame}
 
-\begin{frame}{What software components do we need?}
-	
-	\vspace{-6ex}
-	
-	\[
-	 \uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} = \cdots = } \only<1>{\mu :=} 	\underbrace{\Ex[f(\vX)]}_{\text{expectation}} = \underbrace{\int_\cx \alert<3>{f(\vx)} \, \varrho(\vx) \, \dif \vx}_{\text{integration}} \approx  \frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i}) =: \hmu_{\alert<4>{n}}
-	\]
-	
-		\vspace{-3ex}
-	
-	\begin{description}[<+->]
-				\setlength{\itemsep}{0.5cm}
-		
-		\item[LD Generator] producing $\{\vX_1, \vX_2, \dots \}$ that mimics the distribution with PDF $\varrho$, e.g., uniform
-		
-		\item[True Measure] that defines the original integral, e.g., Lebesgue
-		
-		\item[Integrand] $g$, which defines the original integral, plus the transformed version, $f$, to fit the LD generator
-		
-		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
-	\end{description}
-\end{frame}
 
 \section{QMCPy on Google Colaboratory}
 \begin{frame}{QMCPy in a Jupyter Notebooks on Google Colaboratory}
