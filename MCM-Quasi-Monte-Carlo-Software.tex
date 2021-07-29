@@ -121,12 +121,14 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 
 \frame{\titlepage}
 
+\section{Background}
+
 \begin{frame}{Quasi-Monte Carlo Cubature}
 	
 	\vspace{-6ex}
 	
 	\[
-	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\vt = \vPsi(\vx)}  } \only<1>{\mu :=} 	\underbrace{\Ex[f(\vX)]}_{\text{expectation}} = \underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
+	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<2>{\vt = \vPsi(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
 	\]
 	
 	\vspace{-3ex}
@@ -136,17 +138,57 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 		
 		\item[Low Discrepancy Generator] producing $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$ 
 		
-		\item[True Measure] that defines the original integral, e.g., Lebesgue or Gaussian, and performs the variable transformation
+		\item[True Measure] $\lambda$ used to define the original integral, such as Lebesgue or Gaussian, along with the variable transformation (importance sampling)
 		
-		\item[Integrand] $g$, which defines the original integral, plus the transformed version, $f$, to fit the LD generator
+		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vPsi(\vx))\lambda(\vPsi(\vx))\abs{\vPsi'(\vx)}$
 		
 		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
 	\end{description}
 \end{frame}
 
+\begin{frame}{Software Landscape}
+	\vspace{-3ex}
+	{\small 
+	
+	\renewcommand{\arraystretch}{1.15}
+	\begin{tabular}{>{\centering}m{0.47\textwidth}@{\qquad}>{\centering}m{0.47\textwidth}}
+		\alert{LD Sequence Generators} & \alert{Multi-Level, Stopping Criteria, Applications}
+		\tabularnewline \toprule
+		\href{https://www.mathworks.com}{\alert{MATLAB Statistics Toolbox}}---\newline Sobol' and Halton &
+		\href{https://people.maths.ox.ac.uk/gilesm/mlmc/}{\alert{Mike Giles}}---Multi-Level (Quasi-)Monte Carlo  in C++, MATLAB, Python, and R
+		\tabularnewline
+		\href{https://cran.r-project.org/web/packages/qrng/qrng.pdf}{\alert{Marius Hofert \& Christiane Lemieux }}---\texttt{qrng} R package, Sobol' and Halton &
+		\href{http://gailgithub.github.io/GAIL_Dev/}{\alert{Guaranteed Automatic Integration Library (GAIL)}}---Stopping criteria  in MATLAB
+		\tabularnewline
+		\href{http://www.broda.co.uk}{\alert{BRODA, Sergei Kucherenko}---Sobol' in C, MATLAB, and Excel}& 
+		\href{https://www.uqlab.com}{\alert{UQLab}}---Framework for Uncertainty Quantification in MATLAB
+		\tabularnewline
+		\href{http://statweb.stanford.edu/~owen/code/}{\alert{Art Owen}}---randomized Halton in R&
+		\multirow{3}{0.47\textwidth}{\centering \href{http://www.openturns.org}{\alert{OpenTURNS}---An Open source initiative for the Treatment of Uncertainties, Risks 'N Statistics in Python}}
+		\tabularnewline
+		\href{https://github.com/PieterjanRobbe/QMC.jl}{\alert{Pieterjan Robbe}---LD sequences in Julia}
+		\tabularnewline
+		\href{https://pytorch.org/}{\alert{SciPy}}, \href{https://Sci.Py.org/}{\alert{PyTorch}---Sobol' in Python}
+		\tabularnewline
+		\href{https://developer.nvidia.com/curand}{\alert{cuRAND}}---Sobol' in CUDA
+	\tabularnewline
+		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{http://simul.iro.umontreal.ca}{\alert{Pierre L'Ecuyer}---LatNet Builder and  Stochastic Simulation in C/C++ and Java}}
+		\tabularnewline
+		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{https://people.cs.kuleuven.be/~dirk.nuyens/}{\alert{Dirk Nuyens}}---Magic Point Shop and QMC4PDE in MATLAB, Python, and C++}
+		\tabularnewline
+		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{http://people.sc.fsu.edu/~jburkardt/}{\alert{John Burkhardt}}---variety in C++, Fortran, MATLAB, \& Python}
+		\tabularnewline
+		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{https://qmcsoftware.github.io/QMCSoftware/}{\alert{QMCPy}}---Python package incorporating and connecting the work of different groups}
+		\tabularnewline
+	\end{tabular}
+	
+}
+	% https://developer.nvidia.com/curand. CUDA
+	
+	\renewcommand{\arraystretch}{1}
+	
+\end{frame}
 \end{document}
-
-\section{Background}
 
 
 \begin{frame}{Quasi-Monte Carlo (QMC) uses low discrepancy (LD) sequences}
@@ -171,44 +213,7 @@ $F_{\{\vX_i\}_{i=1}^n}(\vx) \approx F(\vx)$
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Where is the software?  (apologies to those I missed)}
-			\vspace{-3ex}
-	
-	\renewcommand{\arraystretch}{1.15}
-	\begin{tabular}{>{\centering}m{0.47\textwidth}@{\qquad}>{\centering}m{0.47\textwidth}}
-		\alert{LD Sequence Generators} & \alert{Multi-Level, Stopping Criteria, Applications}
-		\tabularnewline \toprule
-		\uncover<1>{\href{https://www.mathworks.com}{\alert{MATLAB Statistics Toolbox}}---\newline Sobol' and Halton} &
-		\href{https://people.maths.ox.ac.uk/gilesm/mlmc/}{\alert{Mike Giles}}---Multi-Level (Quasi-)Monte Carlo  \uncover<1>{in C++, MATLAB, Python, and R}
-		\tabularnewline
-		\href{https://cran.r-project.org/web/packages/qrng/qrng.pdf}{\alert{Marius Hofert \& Christiane Lemieux }}---\texttt{qrng} \uncover<1>{R package,} Sobol' and Halton &
-	  \href{http://gailgithub.github.io/GAIL_Dev/}{\alert{Guaranteed Automatic Integration Library (GAIL)}}---Stopping criteria  \uncover<1>{in MATLAB}
-		\tabularnewline
-		\uncover<1>{\href{http://www.broda.co.uk}{\alert{BRODA, Sergei Kucherenko}}---Sobol' in C, MATLAB, and Excel}& 
-		\uncover<1>{\href{https://www.uqlab.com}{\alert{UQLab}}---Framework for Uncertainty Quantification in MATLAB}
-		\tabularnewline
-		\href{http://statweb.stanford.edu/~owen/code/}{\alert{Art Owen}}---randomized Halton\uncover<1>{ in R}&
-		\multirow{3}{0.47\textwidth}{\uncover<1>{\centering \href{http://www.openturns.org}{\alert{OpenTURNS}---An Open source initiative for the Treatment of Uncertainties, Risks 'N Statistics in Python}}}
-		\tabularnewline
-		\uncover<1>{\href{https://github.com/PieterjanRobbe/QMC.jl}{\alert{Pieterjan Robbe}---LD sequences in Julia}}
-		\tabularnewline
-		\href{https://pytorch.org/}{\alert{PyTorch}---Sobol' \uncover<1>{in Python}}
-		\tabularnewline
-		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{http://simul.iro.umontreal.ca}{\alert{Pierre L'Ecuyer}---Lattice Builder \uncover<1>{and  Stochastic Simulation in C/C++ and Java}}}
-		\tabularnewline
-		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{https://people.cs.kuleuven.be/~dirk.nuyens/}{\alert{Dirk Nuyens}}---Magic Point Shop \uncover<1>{and QMC4PDE in MATLAB, Python, and C++}}
-\tabularnewline
-		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\uncover<1>{\href{http://people.sc.fsu.edu/~jburkardt/}{\alert{John Burkhardt}}---variety in C++, Fortran, MATLAB, \& Python}}
-\tabularnewline
-		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{https://qmcsoftware.github.io/QMCSoftware/}{\alert{QMCPy}}---Python package \alert<2->{incorporating and connecting} the work of different groups}
-\tabularnewline
-	\end{tabular}
-	
-	% https://developer.nvidia.com/curand. CUDA
 
-\renewcommand{\arraystretch}{1}
-    
-\end{frame}
 
 
 \begin{frame}{Why LD is better than IID}
