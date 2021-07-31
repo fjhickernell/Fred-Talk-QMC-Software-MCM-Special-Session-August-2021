@@ -25,6 +25,7 @@
 \usepackage{media9}
 \usepackage[autolinebreaks]{mcode}
 \usepackage[tikz]{mdframed}
+\usepackage{multicol}
 
 
 \usetheme{FJHSlimNoFoot169}
@@ -140,7 +141,7 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 		
 		\item[True Measure] $\lambda$ used to define the original integral, such as Lebesgue or Gaussian, along with the variable transformation (importance sampling)
 		
-		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vPsi(\vx))\lambda(\vPsi(\vx))\abs{\vPsi'(\vx)}$
+		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vPsi(\vx))\lambda(\vPsi(\vx))\abs{\vPsi'(\vx)}$ (preferably flat)
 		
 		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
 	\end{description}
@@ -188,6 +189,34 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 	\renewcommand{\arraystretch}{1}
 	
 \end{frame}
+
+
+\section{Advances}
+
+\begin{frame}{Low Discrepancy Generators}
+\begin{multicols}{2}
+{\Large \alert{Advances}}
+\begin{itemize}
+	\item \href{https://github.com/scipy/scipy/pull/10844}{\alert{Sobol' and Halton into SciPy.}}  Zeroth point included.  Cython for speed.
+\end{itemize}
+
+\columnbreak
+{\large \alert{Challenges}}
+\begin{itemize}
+	\item Need to educate \href{https://arxiv.org/pdf/2008.08051.pdf}{\alert{against}} dropping, thinning, burn-in, power of $10$ sample sizes \cite{Owe22a}
+\end{itemize}
+
+\end{multicols}
+\end{frame}
+	
+\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/quasi-monte-carlo-software}}\\
+	Google Colaboratory notebook at \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{tinyurl.com/QMCPyTutorial}}\\
+	Blog at \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}}
+
+
+\thankyouframe
+
+	
 \end{document}
 
 
