@@ -1,4 +1,4 @@
-%Talk given virtually for MCM 2021
+%Talk given virtually for MCM 2021 on special session on QMC software
 \documentclass[11pt,compress,xcolor={usenames,dvipsnames},aspectratio=169]{beamer}
 %\documentclass[xcolor={usenames,dvipsnames},aspectratio=169]{beamer} %slides and 
 %notes
@@ -75,16 +75,12 @@ Quasi-Monte Carlo (qMC) theory has developed over than six decades.  Computer im
 	\href{http://mypages.iit.edu/~hickernell}{\url{mypages.iit.edu/~hickernell}}}
 
 \thanksnote{with Sou-Cheng Choi, Mike McCourt, Jagadeeswaran Rathinavel, Aleksei Sorokin \\ 
-and the rest of the GAIL an QMCPy teams \\[2ex]
+and the rest of the QMCPy team \\[2ex]
 	Thanks to the organizers, especially during these unusual times \\
-	Slides at  \href{https://speakerdeck.com/fjhickernell/quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/quasi-monte-carlo-software}}\\
-	Google Colaboratory notebook at \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{tinyurl.com/QMCPyTutorial}}\\
-	Blog at \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}\\
-	Recording of this talk at \href{https://media.ed.ac.uk/playlist/dedicated/51612401/1_0z0wec2z/1_2k12mwiw}{\nolinkurl{media.ed.ac.uk/playlist/dedicated/51612401/1_0z0wec2z/1_2k12mwiw}}
-	
-}
+	Slides at  \href{https://speakerdeck.com/fjhickernell/advances-challenges-qmc-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-challenges-qmc-software}}}
+
 \event{MCM 2021}
-\date[]{August ??, 2021}
+\date[]{August 17, 2021}
 
 \input FJHDef.tex
 
@@ -129,7 +125,7 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 	\vspace{-6ex}
 	
 	\[
-	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<2>{\vt = \vPsi(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
+	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<2>{\vt = \vT(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
 	\]
 	
 	\vspace{-3ex}
@@ -141,7 +137,7 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 		
 		\item[True Measure] $\lambda$ used to define the original integral, such as Lebesgue or Gaussian, along with the variable transformation (importance sampling)
 		
-		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vPsi(\vx))\lambda(\vPsi(\vx))\abs{\vPsi'(\vx)}$ (preferably flat)
+		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vT(\vx))\lambda(\vT(\vx))\abs{\vT'(\vx)}$ (preferably flat)
 		
 		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
 	\end{description}
@@ -198,17 +194,114 @@ and the rest of the GAIL an QMCPy teams \\[2ex]
 {\Large \alert{Advances}}
 \begin{itemize}
 	\item \href{https://github.com/scipy/scipy/pull/10844}{\alert{Sobol' and Halton into SciPy.}}  Zeroth point included.  Cython for speed.
+	
+	\item Niederreiter points and other ``bring your own'' generators in QMCPy
+	
 \end{itemize}
 
 \columnbreak
+\uncover<2>{
 {\Large \alert{Challenges}}
 \begin{itemize}
 	\item Need to educate \href{https://arxiv.org/pdf/2008.08051.pdf}{\alert{against}} dropping, thinning, burn-in, power of $10$ sample sizes \cite{Owe22a}
+	
+	\item \alert{Nested uniform scrambling} of nets \cite{Owe95} not yet widely available
+	
+	\item \alert{Higher order nets} not widely available
+	
+	\item \alert{Which} generators are significantly better for which practical problems?
 \end{itemize}
+}
 
 \end{multicols}
 \end{frame}
+
+\section{True Measures}
+
+\begin{frame}{True Measures $\vT: \ct \to [0,1]^d$ }
 	
+\alert{Variable transformations} aka \alert{importance sampling}
+	\begin{multicols}{2}
+		{\Large \alert{Advances}}
+		\begin{itemize}
+			\item QMCPy has defaults for $\vT = \reals^d$ or $[\va,\vb]^d$ based on  the original weight function, and you can choose your own
+						
+		\end{itemize}
+		
+		\columnbreak
+		
+		\uncover<2>{
+		{\Large \alert{Challenges}}
+		\begin{itemize}
+			\item Importance sampling is an art
+			
+			\item Need for adaptive importance sampling
+			
+			\item Transformations for non-rectangular $\ct$ (simplex, ball, sphere)  not widely available
+			
+		\end{itemize}
+	}
+		
+	\end{multicols}
+\end{frame}
+
+\section{Integrands}
+
+\begin{frame}{Integrands or Use Cases}
+	
+	Choosing \alert{variable transformations}, $\vT: \ct \to [0,1]^d$ aka \alert{importance sampling}
+	\begin{multicols}{2}
+		{\Large \alert{Advances}}
+		\begin{itemize}
+			\item QMCPy allows you to build your own, and has several examples
+			
+		\end{itemize}
+		
+		\columnbreak
+		
+		\uncover<2>{
+			{\Large \alert{Challenges}}
+			\begin{itemize}
+				\item Our use cases are refreshing
+				
+				\item Need to demonstrate connecting a package that computes the function values with the package that does the QMC
+				
+			\end{itemize}
+		}
+		
+	\end{multicols}
+\end{frame}
+
+	
+\section{Stopping Criteria}
+
+\begin{frame}{Stopping Criteria}
+	
+	Choosing \alert{variable transformations}, $\vT: \ct \to [0,1]^d$ aka \alert{importance sampling}
+	\begin{multicols}{2}
+		{\Large \alert{Advances}}
+		\begin{itemize}
+			\item QMCPy allows you to build your own, and has several examples
+			
+		\end{itemize}
+		
+		\columnbreak
+		
+		\uncover<2>{
+			{\Large \alert{Challenges}}
+			\begin{itemize}
+				\item Our use cases are refreshing
+				
+				\item Need to demonstrate connecting a package that computes the function values with the package that does the QMC
+				
+			\end{itemize}
+		}
+		
+	\end{multicols}
+\end{frame}
+
+
+
 \finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/quasi-monte-carlo-software}}\\
 	Google Colaboratory notebook at \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{tinyurl.com/QMCPyTutorial}}\\
 	Blog at \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}}
