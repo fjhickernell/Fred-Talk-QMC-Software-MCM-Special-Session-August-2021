@@ -17,7 +17,7 @@
 	siunitx,
  	graphicx}
 \usepackage[usenames]{xcolor}
-\usepackage[giveninits=false,backend=biber,style=nature, maxcitenames =10, mincitenames=9]{biblatex}
+\usepackage[giveninits=false,backend=biber,style=nature, maxcitenames =10, mincitenames=9,mincrossrefs=10]{biblatex}
 \addbibresource{FJHown23.bib}
 \addbibresource{FJH23.bib}
 \usepackage{newpxtext}
@@ -77,7 +77,7 @@ Quasi-Monte Carlo (qMC) theory has developed over than six decades.  Computer im
 \thanksnote{with Sou-Cheng Choi, Mike McCourt, Jagadeeswaran Rathinavel, Aleksei Sorokin \\ 
 and the rest of the QMCPy team \\[2ex]
 	Thanks to the organizers, especially during these unusual times \\
-	Slides at  \href{https://speakerdeck.com/fjhickernell/advances-challenges-qmc-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-challenges-qmc-software}}}
+	Slides at  \href{https://speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}}}
 
 \event{MCM 2021}
 \date[]{August 17, 2021}
@@ -125,12 +125,12 @@ and the rest of the QMCPy team \\[2ex]
 	\vspace{-6ex}
 	
 	\[
-	\uncover<2->{\mu :=  \int_{\ct} \alert<3>{g(\vt)} \, \alert<2>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<2>{\vt = \vT(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<3>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<4>{n}} \sum_{i=1}^{\alert<4>{n}} f(\alert<1>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<4>{n}}
+	\uncover<3->{\mu :=  \int_{\ct} \alert<4>{g(\vt)} \, \alert<3>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<3>{\vt = \vT(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<4>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<5>{n}} \sum_{i=1}^{\alert<5>{n}} f(\alert<2>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<5>{n}}
 	\]
 	
 	\vspace{-3ex}
 	
-	\begin{description}[<+->]
+	\begin{description}[<+(1)->]
 		\setlength{\itemsep}{0.5cm}
 		
 		\item[Low Discrepancy Generator] producing $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$ 
@@ -165,7 +165,9 @@ and the rest of the QMCPy team \\[2ex]
 		\tabularnewline
 		\href{https://github.com/PieterjanRobbe/QMC.jl}{\alert{Pieterjan Robbe}---LD sequences in Julia}
 		\tabularnewline
-		\href{https://pytorch.org/}{\alert{SciPy}}, \href{https://Sci.Py.org/}{\alert{PyTorch}---Sobol' in Python}
+		\href{https://Sci.Py.org/}{\alert{SciPy}}, \href{https://pytorch.org/}{\alert{PyTorch}---Sobol' in Python}
+		\tabularnewline
+		\alert{Tensorflow}---(Digital) lattices in Python
 		\tabularnewline
 		\href{https://developer.nvidia.com/curand}{\alert{cuRAND}}---Sobol' in CUDA
 	\tabularnewline
@@ -180,10 +182,28 @@ and the rest of the QMCPy team \\[2ex]
 	\end{tabular}
 	
 }
-	% https://developer.nvidia.com/curand. CUDA
 	
 	\renewcommand{\arraystretch}{1}
 	
+\end{frame}
+
+\begin{frame}{What We Want}
+\begin{multicols}{2}
+	\begin{itemize}
+		\item QMC in the hands of more users
+		
+		\item Quality QMC algorithms
+		
+		\item Platform to compare performance of QMC algorithms
+		
+		\item Vehicle to explore QMC for new use cases
+		
+	\end{itemize}
+	
+	\columnbreak
+\includegraphics[width = 0.45\textwidth]{QMCSoftwarePlot.eps}	
+\end{multicols}
+
 \end{frame}
 
 
@@ -191,9 +211,11 @@ and the rest of the QMCPy team \\[2ex]
 
 \begin{frame}{Low Discrepancy Generators: $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$}
 \begin{multicols}{2}
-{\Large \alert{Advances}}
+{\Large \alert{Recent Advances}}
 \begin{itemize}
 	\item \href{https://github.com/scipy/scipy/pull/10844}{\alert{Sobol' and Halton into SciPy.}}  Zeroth point included.  Cython for speed.
+	
+	\item Lattices and digital nets into \alert{Tensorflow}
 	
 	\item Niederreiter points and other ``bring your own'' generators in QMCPy
 	
@@ -209,7 +231,13 @@ and the rest of the QMCPy team \\[2ex]
 	
 	\item \alert{Higher order nets} not widely available
 	
-	\item \alert{Which} generators are significantly better for which practical problems?
+	\item \alert{Which} generators are significantly better 
+	\begin{itemize}
+		\item For which practical problems?
+		\item For higher dimensions?
+	\end{itemize}
+
+\item Is there a useful hybrid of lattices and digital sequences?
 \end{itemize}
 }
 
@@ -219,10 +247,14 @@ and the rest of the QMCPy team \\[2ex]
 \section{True Measures}
 
 \begin{frame}{True Measures $\vT: \ct \to [0,1]^d$ }
-	
-\alert{Variable transformations} aka \alert{importance sampling}
+
+\vspace{-8ex}
+	\[
+\int_{\ct} g(\vt) \, \lambda(\vt) \, \dif \vt \underbrace{=}_{\alert{\vt = \vT(\vx)}} \int_{[0,1]^d} f(\vx) \, \dif \vx \qquad \text{\alert{Variable transformations} aka \alert{importance sampling}}
+\]
+
 	\begin{multicols}{2}
-		{\Large \alert{Advances}}
+		{\Large \alert{Recent Advances}}
 		\begin{itemize}
 			\item QMCPy has defaults for $\vT = \reals^d$ or $[\va,\vb]^d$ based on  the original weight function, and you can choose your own
 						
@@ -235,7 +267,7 @@ and the rest of the QMCPy team \\[2ex]
 		\begin{itemize}
 			\item Importance sampling is an art
 			
-			\item Need for adaptive importance sampling
+			\item Need for \href{https://statweb.stanford.edu/~owen/pubtalks/AdaptiveISweb.pdf}{\alert{adaptive importance sampling}}
 			
 			\item Transformations for non-rectangular $\ct$ (simplex, ball, sphere)  not widely available
 			
@@ -247,13 +279,16 @@ and the rest of the QMCPy team \\[2ex]
 
 \section{Integrands}
 
-\begin{frame}{Integrands or Use Cases}
+\begin{frame}{Integrands or Use Cases $	\int_{\ct} \alert{g(\vt) \, \lambda(\vt)} \, \dif \vt = \cdots$}
 	
-	Choosing \alert{variable transformations}, $\vT: \ct \to [0,1]^d$ aka \alert{importance sampling}
 	\begin{multicols}{2}
-		{\Large \alert{Advances}}
+		{\Large \alert{Recent Advances}}
 		\begin{itemize}
 			\item QMCPy allows you to build your own, and has several examples
+			
+			\item UQLab and OpenTURNS include LD generators for their use cases
+			
+			\item Some new use cases such as in Robbe's talk \cite{Vro19a} on system reliability and Ebert's talk combining QMC with algorithmic differentiation
 			
 		\end{itemize}
 		
@@ -262,9 +297,11 @@ and the rest of the QMCPy team \\[2ex]
 		\uncover<2>{
 			{\Large \alert{Challenges}}
 			\begin{itemize}
-				\item Our use cases are refreshing
+				\item Our use cases need refreshing and expanding
 				
-				\item Need to demonstrate connecting a package that computes the function values with the package that does the QMC
+				\item Hard to swap out different LD generators for important use cases because the use cases do not have a common interface or is not always accessible
+				
+				\item Need to demonstrate connecting a package that computes the integrand values (such as an open source PDE solver) with the package that does the QMC
 				
 			\end{itemize}
 		}
@@ -275,14 +312,18 @@ and the rest of the QMCPy team \\[2ex]
 	
 \section{Stopping Criteria}
 
-\begin{frame}{Stopping Criteria}
+\begin{frame}{Stopping Criteria, $n = ?$}
 	
-	Choosing \alert{variable transformations}, $\vT: \ct \to [0,1]^d$ aka \alert{importance sampling}
 	\begin{multicols}{2}
 		{\Large \alert{Advances}}
 		\begin{itemize}
-			\item QMCPy allows you to build your own, and has several examples
-			
+			\item QMCPy includes 
+			\begin{itemize}
+				\item Several kinds of stopping criteria (replications, tracking Fourier coefficients \cite{HicJim16a,JimHic16a}, Bayesian credibility intervals \cite{RatHic19a})
+				\item Criteria to ensure that $\abs{\sol - \sol_n} \le   \max(\varepsilon_{\text{a}}, \varepsilon_{\text{r}} \abs{\sol})$, where
+				$\sol$ is a function of more than one integral (Bayesian inference, Sobol' indices)
+			\end{itemize}
+						
 		\end{itemize}
 		
 		\columnbreak
@@ -290,9 +331,9 @@ and the rest of the QMCPy team \\[2ex]
 		\uncover<2>{
 			{\Large \alert{Challenges}}
 			\begin{itemize}
-				\item Our use cases are refreshing
+				\item Need better stopping criteria for higher order nets (other than replications)
 				
-				\item Need to demonstrate connecting a package that computes the function values with the package that does the QMC
+				\item Need better stopping criteria for more complex problems, such as parametric integration, density estimation, Markov Chain Monte Carlo
 				
 			\end{itemize}
 		}
@@ -302,244 +343,12 @@ and the rest of the QMCPy team \\[2ex]
 
 
 
-\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/quasi-monte-carlo-software}}\\
-	Google Colaboratory notebook at \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{tinyurl.com/QMCPyTutorial}}\\
-	Blog at \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}}
+\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}}}
 
 
 \thankyouframe
 
 \printbibliography
-
-
-\end{document}
-
-
-
-\begin{frame}{Quasi-Monte Carlo (QMC) uses low discrepancy (LD) sequences}
-\vspace{-3ex}
-\begin{tabular}{>{\centering}p{0.47\textwidth}@{\quad}>{\centering}p{0.47\textwidth}}
-%Independent \& Identically Distributed (IID) &
-%Low Discrepancy (LD) \tabularnewline
-\includegraphics[height=5cm]{ProgramsImages/IIDPoints.eps} &
-\includegraphics[height=5cm]{ProgramsImages/SSobolPoints.eps}
-\tabularnewline
-$\vT_i$ are random &
-$\vX_i$ may be deterministic \alert{or} random 
-\tabularnewline
-$\vT_1, \vT_2 \cdots \alert{\IIDsim} F$ &
-$\vX_1, \vX_2 \cdots \alert{\LDsim} F$ 
-\tabularnewline
-$\vT_i$ do not know about one another &
-$\{\vX_i\}_{i=1}^n$ represent $F$ well
-\tabularnewline
-$F_{n}(\vt_1, \ldots, \vt_n) = F(\vt_1) \cdots F(\vt_n)$ &
-$F_{\{\vX_i\}_{i=1}^n}(\vx) \approx F(\vx)$
-\end{tabular}
-\end{frame}
-
-
-
-
-\begin{frame}{Why LD is better than IID}
-	\vspace{-4ex}
-	\begin{description}
-		\setlength{\itemsep}{0.5cm}
-		\item[Integration/Expectation]  Arising in finance, uncertainty quantification, Bayesian inference, \ldots
-		\begin{equation*}
-		\mu := \Ex[f(\vX)] = \int_\cx f(\vx) \, \varrho(\vx) \, \dif \vx \approx \frac 1n \sum_{i=1}^n f(\vX_i) =:  \hmu_n
-		\end{equation*}
-		LD points give faster convergence than IID
-		
-		\item[Design of Computer Experiments] LD can be more space filling (even than Latin hypercube sampling) for use in constructing surrogate models and uncertainty quantification
-
-		\item[Global Optimization]  LD points are more space filling and find good starting points for local methods
-		
-		\end{description}
-	
-    
-\end{frame}
-
-
-\section{QMCPy on Google Colaboratory}
-\begin{frame}{QMCPy in a Jupyter Notebooks on Google Colaboratory}
-	\vspace{-4ex}
-	
-	\alert{Prerequisites}---No Python, Jupyter, or QMC knowledge assumed
-	
-	\vspace{-1ex}
-	
-	\alert{Goals}
-	
-		\vspace{-3ex}
-		\begin{itemize}
-		\item Show you how QMC software works
-		\item Interest you in using/contributing
-	\end{itemize}
-	
-	\vspace{-1ex}
-
-	\alert{Directions}
-	
-	\vspace{-3ex}
-	\begin{itemize}
-		\item Point your browser to \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{https://tinyurl.com/QMCPyTutorial}}
-		\item Open the file in Google Colaboratory (may need to push a button at the top of your browser)
-		\item Make a copy of this file onto your own Google drive account \\
-		\texttt{File} $\rightarrow$ \texttt{Save a copy in Drive}
-	\end{itemize}
-
-
-
-\alert{Pause for questions}
-\end{frame}
-
-\section{Why collaborate?}
-
-\begin{frame}
-	\frametitle{Acknowledgments for QMCPy}
-	
-	\begin{itemize}
-		\item Coded almost entirely by Aleksei Sorokin (BS/MS '21)
-		
-		\item Relies on code from several groups (see above)
-		
-		\item Documentation and testing by Sou-Cheng Choi and Jagadeeswaran R.
-		
-		\item Funded and encouraged by Mike McCourt at SigOpt
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}
-	{The Guaranteed Automatic Integration Library (GAIL) and QMCPy teams}
-	
-	\vspace{-2ex}
-	\includegraphics[angle = 180, origin = c, width = 0.32\textwidth]{ProgramsImages/GAIL2014RE.jpeg} \
-	\includegraphics[width = 0.32\textwidth]{ProgramsImages/GAILatSIAM2018Hi.jpeg} \ 
-	\includegraphics[width = 0.32\textwidth]{ProgramsImages/GAILatChinatown2018.jpg}
-	
-	\vspace{-4ex}
-
-	{\small 
-		\hspace{-4ex}\begin{tabular}{p{0.545\textwidth}p{0.44\textwidth}}
-		
-		\begin{itemize}
-			\setlength{\itemsep}{0ex}
-	
-			\item Sou-Cheng Choi (Chief Data Scientist, Kamakura)
-			
-			\item Yuhan Ding (IIT PhD '15, Lecturer, IIT)
-			
-			\item Lan Jiang  (IIT PhD '16, Compass)
-			
-			\item Llu\'is Antoni Jim\'enez Rugama (IIT PhD '17, UBS)
-			
-			\item Mike McCourt (IIT BS '07, Cornell PhD '12, \\ Head of Research, SigOpt)
-			
-			\item Jagadeeswaran Rathinavel (IIT PhD '19, Wi-Tronix)
-			
-			
-			
-			
-		\end{itemize}
-		
-		&
-		
-		\begin{itemize}
-			
-			\setlength{\itemsep}{0ex}
-			
-			\item Aleksei Sorokin (IIT BS \& MAS '21 exp.)
-			
-			\item  Xin Tong (IIT MS, UIC PhD '20 exp.)
-			
-			\item Kan Zhang (IIT PhD '20 exp.)
-			
-			\item Yizhi Zhang (IIT PhD '18, Jamran Int'l)
-			
-			\item Xuan Zhou (IIT PhD '15, JP Morgan)
-			
-			\item and others
-			
-			
-		\end{itemize}
-	
-		
-	\end{tabular}
-}
-
-\end{frame}
-
-\begin{frame}{The argument for community software}
-	
-	\vspace{-4ex}
-	
-	\begin{itemize}
-	\item<+-> Our research groups are typically expert at only part of the whole picture:
-			\begin{itemize}
-			\item LD sequence generators
-			
-			\item Increasing efficiency, e.g., MLMC, MDM
-			
-			\item Stopping criteria
-			
-			\item Use cases
-		\end{itemize}
-	
-		A community library lets us all take advantage of the best
-
-	\item<+-> Provides a consistent interface for pieces from different places
-	
-	\item<+-> Enables reproducible computational research
-	
-	\item<+-> Tedious stuff only done once
-
-		\item<+-> Many eyes find and correct errors
-		\begin{itemize}
-			\item MATLAB's Sobol' generator's  scrambling corrected in MATLAB 2017a after Tony Jim\'enez Rugama noticed the problem
-			
-			\item PyTorch's Sobol' generator found to be wrong unless double precision is proactively specified; also missing the first point; reported at \url{https://github.com/pytorch/pytorch/issues/32047}
-		\end{itemize}
-	
-
-\end{itemize}
-\end{frame}
-
-\begin{frame}{How you can contribute}
-	
-		\vspace{-3ex}
-	Try out  QMCPy and then
-	
-			\vspace{-1ex}
-	
-	
-	\begin{description}
-		\item[Easy] Submit your bugs and feature requests as issues to \url{https://github.com/QMCSoftware/QMCSoftware/issues}
-		
-		\item[Moderately Difficult]  Ask your students or collaborators to try QMCPy themselves and submit their bugs and feature requests\\[1ex]
-		
-		Email us your blog post to add to \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}
-		
-		\item[Heroic] Add a feature or use case and make a pull request at \url{https://github.com/QMCSoftware/QMCSoftware/pulls} \\ so that we can included it in our next release
-	\end{description}
-
-		\vspace{-1ex}
-	
-	Questions or suggestions?  Email us at \href{mailto:qmc-software@googlegroups.com}{\nolinkurl{qmc-software@googlegroups.com}}
-	
-			\vspace{-1ex}
-	
-	\uncover<2>{If you are wedded to another language, think of designing your software so that others can add to it easily.}
-
-\end{frame}
-
-\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/quasi-monte-carlo-software}}\\
-Google Colaboratory notebook at \href{https://tinyurl.com/QMCPyTutorial}{\nolinkurl{tinyurl.com/QMCPyTutorial}}\\
-Blog at \href{https://qmcpy.wordpress.com/}{\nolinkurl{qmcpy.wordpress.com/}}}
-
-
-\thankyouframe
 
 
 \end{document}
