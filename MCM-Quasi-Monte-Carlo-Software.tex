@@ -74,9 +74,9 @@ Quasi-Monte Carlo (qMC) theory has developed over than six decades.  Computer im
 	\href{mailto:hickernell@iit.edu}{\url{hickernell@iit.edu}} \quad
 	\href{http://mypages.iit.edu/~hickernell}{\url{mypages.iit.edu/~hickernell}}}
 
-\thanksnote{with Sou-Cheng Choi, Mike McCourt, Jagadeeswaran Rathinavel, Aleksei Sorokin \\ 
-and the rest of the QMCPy team \\[2ex]
-	Thanks to the organizers, especially during these unusual times \\
+\thanksnote{Thanks to Sou-Cheng Choi, Mike McCourt, Jagadeeswaran Rathinavel, Aleksei Sorokin \\ 
+and the rest of the QMCPy team \\
+	Thanks to the organizers, especially during these unusual times \\[2ex]
 	Slides at  \href{https://speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}}}
 
 \event{MCM 2021}
@@ -125,7 +125,7 @@ and the rest of the QMCPy team \\[2ex]
 	\vspace{-6ex}
 	
 	\[
-	\uncover<3->{\mu :=  \int_{\ct} \alert<4>{g(\vt)} \, \alert<3>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<3>{\vt = \vT(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<4>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\text{expectation}} \approx  \underbrace{\frac 1{\alert<5>{n}} \sum_{i=1}^{\alert<5>{n}} f(\alert<2>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<5>{n}}
+	\uncover<3->{\mu :=  \int_{\ct} \alert<4>{g(\vt)} \, \alert<3>{\lambda(\vt) \, \dif \vt} \underbrace{=}_{\alert<3>{\vt = \vT(\vx)}} } \only<1>{\mu :=} 	\underbrace{\int_{[0,1]^d} \alert<4>{f(\vx)} \, \dif \vx}_{\text{integration}} =  \underbrace{\Ex[f(\vX)]}_{\substack{\text{expectation} \\ \text{population mean}}} \approx  \underbrace{\frac 1{\alert<5>{n}} \sum_{i=1}^{\alert<5>{n}} f(\alert<2>{\vX_i})}_{\text{sample mean}} =: \hmu_{\alert<5>{n}}
 	\]
 	
 	\vspace{-3ex}
@@ -151,26 +151,32 @@ and the rest of the QMCPy team \\[2ex]
 	\begin{tabular}{>{\centering}m{0.47\textwidth}@{\qquad}>{\centering}m{0.47\textwidth}}
 		\alert{LD Sequence Generators} & \alert{Multi-Level, Stopping Criteria, Applications}
 		\tabularnewline \toprule
-		\href{https://www.mathworks.com}{\alert{MATLAB Statistics Toolbox}}---\newline Sobol' and Halton &
-		\href{https://people.maths.ox.ac.uk/gilesm/mlmc/}{\alert{Mike Giles}}---Multi-Level (Quasi-)Monte Carlo  in C++, MATLAB, Python, and R
+		\href{https://www.mathworks.com}{\alert{MATLAB}}---Sobol' \& Halton 
+		&
+		\multirow{2}{0.47\textwidth}{\centering \href{https://people.maths.ox.ac.uk/gilesm/mlmc/}{\alert{Mike Giles}}---Multi-Level (Quasi-)Monte Carlo  in C++, MATLAB, Python, R}
 		\tabularnewline
-		\href{https://cran.r-project.org/web/packages/qrng/qrng.pdf}{\alert{Marius Hofert \& Christiane Lemieux }}---\texttt{qrng} R package, Sobol' and Halton &
-		\href{http://gailgithub.github.io/GAIL_Dev/}{\alert{Guaranteed Automatic Integration Library (GAIL)}}---Stopping criteria  in MATLAB
-		\tabularnewline
-		\href{http://www.broda.co.uk}{\alert{BRODA, Sergei Kucherenko}---Sobol' in C, MATLAB, and Excel}& 
-		\href{https://www.uqlab.com}{\alert{UQLab}}---Framework for Uncertainty Quantification in MATLAB
-		\tabularnewline
-		\href{http://statweb.stanford.edu/~owen/code/}{\alert{Art Owen}}---randomized Halton in R&
-		\multirow{3}{0.47\textwidth}{\centering \href{http://www.openturns.org}{\alert{OpenTURNS}---An Open source initiative for the Treatment of Uncertainties, Risks 'N Statistics in Python}}
-		\tabularnewline
-		\href{https://github.com/PieterjanRobbe/QMC.jl}{\alert{Pieterjan Robbe}---LD sequences in Julia}
+		\href{http://www.broda.co.uk}{\alert{BRODA}---Sobol' in C, MATLAB, and Excel}
 		\tabularnewline
 		\href{https://Sci.Py.org/}{\alert{SciPy}}, \href{https://pytorch.org/}{\alert{PyTorch}---Sobol', Halton, more in Python}
+		&
+		\multirow{2}{0.47\textwidth}{\centering \href{http://gailgithub.github.io/GAIL_Dev/}{\alert{Guaranteed Automatic Integration Library (GAIL)}}---Stopping criteria  in MATLAB}
 		\tabularnewline
 		\href{https://github.com/google/tf-quant-finance}{\alert{Tensorflow}}---Nets, lattices \& finance in Python
 		\tabularnewline
+		\href{https://cran.r-project.org/web/packages/qrng/qrng.pdf}{\alert{\texttt{qrng}}}--- R package, Sobol' and Halton 
+		&
+		\multirow{2}{0.47\textwidth}{\centering  \href{https://www.uqlab.com}{\alert{UQLab}}---Framework for Uncertainty Quantification in MATLAB}
+		\tabularnewline
+		\href{http://statweb.stanford.edu/~owen/code/}{\alert{Art Owen}}---randomized Halton in R  
+		\tabularnewline 
+		\href{https://github.com/PieterjanRobbe/QMC.jl}{\alert{Pieterjan Robbe}---LD sequences in Julia}
+		&
+		\multirow{3}{0.47\textwidth}{\centering \href{http://www.openturns.org}{\alert{OpenTURNS}---An Open source initiative for the Treatment of Uncertainties, Risks 'N Statistics in Python}}
+		\tabularnewline 
+		\href{https://github.com/stevengj/Sobol.jl}{\alert{Steven Johnson}}---Sobol' in Julia 
+		\tabularnewline 
 		\href{https://developer.nvidia.com/curand}{\alert{cuRAND}}---Sobol' in CUDA
-	\tabularnewline
+		\tabularnewline
 		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{http://simul.iro.umontreal.ca}{\alert{Pierre L'Ecuyer}---LatNet Builder and  Stochastic Simulation in C/C++ and Java}}
 		\tabularnewline
 		\multicolumn{2}{>{\centering}m{0.96\textwidth}}{\href{https://people.cs.kuleuven.be/~dirk.nuyens/}{\alert{Dirk Nuyens}}---Magic Point Shop and QMC4PDE in MATLAB, Python, and C++}
@@ -194,7 +200,7 @@ and the rest of the QMCPy team \\[2ex]
 		
 		\item Quality QMC algorithms
 		
-		\item Platform to compare performance of QMC algorithms
+		\item Platform to compare performance of competing QMC algorithms
 		
 		\item Vehicle to explore QMC for new use cases
 		
@@ -211,11 +217,11 @@ and the rest of the QMCPy team \\[2ex]
 
 \begin{frame}{Low Discrepancy Generators: $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$}
 \begin{multicols}{2}
-{\Large \alert{Recent Advances}}
+{\Large \alert{Recent Advances}}\\ [-1ex]
 \begin{itemize}
-	\item \href{https://github.com/scipy/scipy/pull/10844}{\alert{Sobol' and Halton into SciPy.}}  Zeroth point included.  Cython for speed.
+	\item \href{https://github.com/scipy/scipy/pull/10844}{\alert{Sobol' and Halton into SciPy.}}  Zeroth point included; discrepancy; transformations to other distributions
 	
-	\item Lattices and digital nets into \alert{Tensorflow}
+	\item Lattices, digital nets, and quantitative finance  into \href{https://github.com/google/tf-quant-finance}{\alert{Tensorflow}}
 	
 	\item Niederreiter points and other ``bring your own'' generators in QMCPy
 	
@@ -223,11 +229,13 @@ and the rest of the QMCPy team \\[2ex]
 
 \columnbreak
 \uncover<2>{
-{\Large \alert{Challenges}}
+{\Large \alert{Challenges}}\\ [-0.5ex]
 \begin{itemize}
 	\item Need to educate \href{https://arxiv.org/pdf/2008.08051.pdf}{\alert{against}} dropping, thinning, burn-in, power of $10$ sample sizes \cite{Owe22a}
 	
-	\item \alert{Nested uniform scrambling} of nets \cite{Owe95} not yet widely available
+	\item Need to go beyond \alert{$2^{32}$} points
+	
+	\item \alert{Nested uniform scrambling} of nets \cite{Owe95}, as an alternative to linear matrix scrambling, not yet widely available
 	
 	\item \alert{Higher order nets} not widely available
 	
@@ -246,7 +254,7 @@ and the rest of the QMCPy team \\[2ex]
 
 \section{True Measures}
 
-\begin{frame}{True Measures $\vT: \ct \to [0,1]^d$ }
+\begin{frame}{True Measures:  $\vT: \ct \to [0,1]^d$ }
 
 \vspace{-8ex}
 	\[
@@ -269,6 +277,8 @@ and the rest of the QMCPy team \\[2ex]
 			
 			\item Need for \href{https://statweb.stanford.edu/~owen/pubtalks/AdaptiveISweb.pdf}{\alert{adaptive importance sampling}}
 			
+			\item Can some importance sampling make QMC competitive with MCMC for Bayeseian inference, etc. \cite{Zha21a}?
+			
 			\item Transformations for non-rectangular $\ct$ (simplex, ball, sphere)  not widely available
 			
 		\end{itemize}
@@ -284,11 +294,14 @@ and the rest of the QMCPy team \\[2ex]
 	\begin{multicols}{2}
 		{\Large \alert{Recent Advances}}
 		\begin{itemize}
-			\item QMCPy allows you to build your own, and has several examples
+			
+			\item \href{https://github.com/google/tf-quant-finance}{\alert{Tensorflow}} has quantitative finance 
 			
 			\item UQLab and OpenTURNS include LD generators for their use cases
 			
-			\item Some new use cases such as in Robbe's talk \cite{Vro19a} on system reliability and Ebert's talk combining QMC with algorithmic differentiation
+			\item QMCPy allows you to build your own, and has a growing number of examples
+
+			\item New use cases such as in Robbe's talk \cite{Vro19a} on system reliability and Ebert's talk combining QMC with algorithmic differentiation
 			
 		\end{itemize}
 		
@@ -297,7 +310,7 @@ and the rest of the QMCPy team \\[2ex]
 		\uncover<2>{
 			{\Large \alert{Challenges}}
 			\begin{itemize}
-				\item Our use cases need refreshing and expanding
+				\item Our go-to use cases need refreshing and expanding
 				
 				\item Hard to swap out different LD generators for important use cases because the use cases do not have a common interface or is not always accessible
 				
@@ -343,8 +356,23 @@ and the rest of the QMCPy team \\[2ex]
 
 \section{Conclusion}
 
-\begin{frame}
-	{Final Thoughts}
+\begin{frame}{Final Thoughts}
+	
+\begin{multicols}{2}
+	\begin{itemize}
+		\item Several multi-collaborator projects that are growing in functionality and user base
+		
+		\item Can our Python packages talk to one another?
+		
+		\item Do we ignore or encourage development in other languages?
+		
+		\item Can our work build a shorter path between research code and production code?
+				
+	\end{itemize}
+	
+	\columnbreak
+	\includegraphics[width = 0.45\textwidth]{QMCSoftwarePlot.eps}	
+\end{multicols}
 	
 \end{frame}
 
