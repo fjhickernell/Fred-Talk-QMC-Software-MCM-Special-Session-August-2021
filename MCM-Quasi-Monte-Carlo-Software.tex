@@ -76,6 +76,7 @@ Quasi-Monte Carlo (qMC) theory has developed over than six decades.  Computer im
 
 \thanksnote{Thanks to Sou-Cheng Choi, Mike McCourt, Jagadeeswaran Rathinavel, Aleksei Sorokin \\ 
 and the rest of the QMCPy team \\
+Thanks to all of the special session speakers \\
 	Thanks to the organizers, especially during these unusual times \\[2ex]
 	Slides at  \href{https://speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}{\nolinkurl{speakerdeck.com/fjhickernell/advances-and-challenges-in-quasi-monte-carlo-software}}}
 
@@ -133,13 +134,13 @@ and the rest of the QMCPy team \\
 	\begin{description}[<+(1)->]
 		\setlength{\itemsep}{0.5cm}
 		
-		\item[Low Discrepancy Generator] producing $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$ 
+		\item[Low Discrepancy Generators] producing $\vX_1, \vX_2, \dots \LDsim \cu[0,1]^d$
 		
-		\item[True Measure] $\lambda$ used to define the original integral, such as Lebesgue or Gaussian, along with the variable transformation (importance sampling)
+		\item[True Measures] $\lambda$ used to define the original integral, such as Lebesgue or Gaussian, along with the variable transformation (importance sampling)
 		
-		\item[Integrand] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vT(\vx))\lambda(\vT(\vx))\abs{\vT'(\vx)}$ (preferably flat)
+		\item[Integrands] $g$ used to define original integral and the final, transformed integrand, $f(\vx) = g(\vT(\vx))\lambda(\vT(\vx))\abs{\vT'(\vx)}$ (preferably flat)
 		
-		\item[Stopping Criterion] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
+		\item[Stopping Criteria] that determines how large $n$ should be to ensure that $\abs{\mu - \hmu_n} \le \varepsilon$
 	\end{description}
 \end{frame}
 
@@ -264,6 +265,9 @@ and the rest of the QMCPy team \\
 	\begin{multicols}{2}
 		{\Large \alert{Recent Advances}}
 		\begin{itemize}
+			
+			\item SciPy has several 
+			
 			\item QMCPy has defaults for $\vT = \reals^d$ or $[\va,\vb]^d$ based on  the original weight function, and you can choose your own
 						
 		\end{itemize}
@@ -360,13 +364,15 @@ and the rest of the QMCPy team \\
 	
 \begin{multicols}{2}
 	\begin{itemize}
-		\item Several multi-collaborator projects that are growing in functionality and user base
-		
-		\item Can our Python packages talk to one another?
-		
-		\item Do we ignore or encourage development in other languages?
+		\item Several multi-collaborator projects are growing in functionality and user base
 		
 		\item Can our work build a shorter path between research code and production code?
+
+		\item Can our Python packages talk to one another?
+		
+		\item Do we ignore or encourage development in R, Julia, MATLAB, \ldots?
+		
+		\item Need to be careful about licensing issues as we share and adapt code
 				
 	\end{itemize}
 	
